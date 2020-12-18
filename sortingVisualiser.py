@@ -34,23 +34,22 @@ def main():
         bars.append(Bar(number, width_count))
         width_count += 20
 
+
+    def drawWindow():
+        for bar in bars:
+            pygame.draw.rect(WINDOW, (255,0,0), [bar.barStart , 450, 10, -(bar.height)])
+
+        pygame.display.update()
+
     while run:
+        drawWindow()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-
-        for bar in bars:
-            pygame.draw.rect(WINDOW, (255,0,0), [bar.barStart , 450, 10, -(bar.height)])
-
-        pygame.display.update()
         time.sleep(2)
-        WINDOW.fill((0,0,0))
 
+        bars[0].moveRight()
+        bars[1].moveLeft()
 
-
-        for bar in bars:
-            pygame.draw.rect(WINDOW, (255,0,0), [bar.barStart , 450, 10, -(bar.height)])
-
-        pygame.display.update()
-
+        
 main()
