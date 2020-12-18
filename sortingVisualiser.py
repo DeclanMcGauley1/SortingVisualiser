@@ -19,6 +19,20 @@ class Bar:
     def moveRight(self):
         self.barStart += 20
 
+#Does an insertion sort on a given list of numbers
+def insertionSort(toBeSorted, bars):
+    for i in range(1, len(toBeSorted)):
+        holder = toBeSorted[i]
+        j = i - 1
+
+        while j >= 0 and toBeSorted[j] > holder:
+            toBeSorted[j + 1] = toBeSorted[j]
+            j -= 1
+
+        toBeSorted[j + 1] = holder
+
+    return toBeSorted
+
 
 def main():
     run = True
@@ -48,8 +62,7 @@ def main():
                 run = False
         time.sleep(2)
 
-        bars[0].moveRight()
-        bars[1].moveLeft()
 
-        
+
+
 main()
