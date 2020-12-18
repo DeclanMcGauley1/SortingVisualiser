@@ -49,19 +49,25 @@ def main():
         width_count += 20
 
 
-    def drawWindow():
-        for bar in bars:
+    def drawWindow(newBars):
+        WINDOW.fill((0,0,0))
+        for bar in newBars:
             pygame.draw.rect(WINDOW, (255,0,0), [bar.barStart , 450, 10, -(bar.height)])
 
         pygame.display.update()
 
     while run:
-        drawWindow()
+        drawWindow(bars)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
         time.sleep(2)
 
+        holder = bars[1]
+        bars.remove(bars[1])
+        bars[0].moveRight()
+        holder.moveLeft()
+        bars.insert(0, holder)
 
 
 
