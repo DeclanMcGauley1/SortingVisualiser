@@ -35,40 +35,33 @@ def main():
         width_count += 20
 
 
-    def drawWindow(newBars):
+    def drawWindow():
         WINDOW.fill((0,0,0))
-        for bar in newBars:
-            pygame.draw.rect(WINDOW, (255,0,0), [bar.barStart , 450, 10, -(bar.height)])
-
+        window_start = 0
+        for bar in bars:
+            pygame.draw.rect(WINDOW, (255,0,0), [window_start, 450, 10, -(bar.height)])
+            window_start += 20
         pygame.display.update()
 
     #Does an insertion sort on a given list of numbers
-    def insertionSort(toBeSorted, bars):
-        for i in range(1, len(toBeSorted)):
-            holder = toBeSorted[i]
+    def insertionSort(bars):
+        for i in range(1, len(bars)):
+            holder = bars[i]
             j = i - 1
-
-            while j >= 0 and toBeSorted[j] > holder:
-                toBeSorted[j + 1] = toBeSorted[j]
+            while j >= 0 and bars[j].value > holder.value:
+                bars[j + 1] = bars[j]
                 j -= 1
-
-            toBeSorted[j + 1] = holder
-
+            bars[j + 1] = holder
+            drawWindow()
+            time.sleep(0.2)
         return toBeSorted
 
     while run:
-        drawWindow(bars)
+        drawWindow()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
         time.sleep(2)
-        for number in toBeSorted:
-            print(number)
-        print("next")
-
-        sorted = insertionSort(toBeSorted, bars)
-
-        for number in sorted:
-            print(number)
-        print("done")
+        insertionSort(bars)
+        run = False
 main()
