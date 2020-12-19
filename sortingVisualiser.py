@@ -31,7 +31,7 @@ def main(sort):
     #generates the list to be sorted
     toBeSorted = list()
     for i in range(10):
-        toBeSorted.append(random.randint(1, 30))
+        toBeSorted.append(random.randint(1, 40))
 
     bars = list()
     for number in toBeSorted:
@@ -60,8 +60,9 @@ def main(sort):
             while j >= 0 and bars[j].value > holder.value:
                 bars[j + 1] = bars[j]
                 j -= 1
+                drawWindow()
+                time.sleep(0.3)
             bars[j + 1] = holder
-            drawWindow()
             time.sleep(0.5)
         return toBeSorted
 
@@ -88,7 +89,7 @@ def mainMenu():
     while run:
         #Puts the prompt in the form of a label on the middle of the screen
         WINDOW.fill((0,0,0))
-        titleLabel = titleFont.render("Press the mouse button for a visualisation of Insertion Sort...", 1, (255, 255, 255))
+        titleLabel = titleFont.render("Press the to pick a sorting algorithm to visualise...", 1, (255, 255, 255))
         WINDOW.blit(titleLabel, (WIDTH / 2 - titleLabel.get_width() / 2, 250))
         pygame.display.update()
 
