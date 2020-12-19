@@ -59,34 +59,42 @@ def main():
             time.sleep(0.2)
         return toBeSorted
 
-    while run:
-        drawWindow()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-        time.sleep(2)
-        insertionSort(bars)
-        time.sleep(0.5)
-        run = False
+    #Draws the initial unsorted bars to the screen
+    drawWindow()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
 
+    #sorts the bars and shows the visualisation
+    time.sleep(2)
+    insertionSort(bars)
+    time.sleep(0.5)
+    run = False
+
+#Controls the main menu that will load before and after the visualisation takes place
 def mainMenu():
     titleFont = pygame.font.SysFont("comicsans", 30)
     run = True
 
     while run:
+        #Puts the prompt in the form of a label on the middle of the screen
         WINDOW.fill((0,0,0))
         titleLabel = titleFont.render("Press the mouse button for a visualisation of Insertion Sort...", 1, (255, 255, 255))
         WINDOW.blit(titleLabel, (WIDTH / 2 - titleLabel.get_width() / 2, 250))
         pygame.display.update()
+
+        #Checks if the user closes the window or if they click the mous button
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
+                #while there isnt a valid user input the program will continue to prompt the user for input
                 notValid = True
                 while notValid:
                     ROOT = tk.Tk()
                     ROOT.withdraw()
                     selectedSort = simpledialog.askstring(title="Sorting", prompt="Choose a sort to visualise..")
+                    #Checks which sort the user wants to see
                     if selectedSort == "insertion" or "Insertion":
                         notValid = False
                         main()
