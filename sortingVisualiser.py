@@ -5,51 +5,51 @@ import tkinter as tk
 from tkinter import simpledialog
 pygame.font.init()
 
+#Creating the window
 WIDTH = 800
 HEIGHT = 500
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 
+
 #Represents the bars that are going to move in the visualisation
 class Bar:
-    def __init__(self, value, barStart):
+    def __init__(self, value):
         self.value = value
-        self.barStart = barStart
         self.height = self.value * 10
         self.selected = False
 
-    def moveLeft(self):
-        self.barStart -= 20
-
-    def moveRight(self):
-        self.barStart += 20
 
 
 def main(sort):
     run = True
-    width_count = 0
 
     #generates the list to be sorted
     toBeSorted = list()
     for i in range(10):
         toBeSorted.append(random.randint(1, 40))
 
+    #Generates bar objecs from the generated list
     bars = list()
     for number in toBeSorted:
-        bars.append(Bar(number, width_count))
+        bars.append(Bar(number))
         width_count += 20
 
-
+    #draws the bars and the animations to the window
     def drawWindow():
+        #blacks out the screen to redraw elements
         WINDOW.fill((0,0,0))
-        window_start = 0
+        width_start = 0
+        #Draws bars onto the screen from a list of bars
         for bar in bars:
+            #If a bar is the one moving it is drawn green rather than red
             if bar.selected == True:
-                pygame.draw.rect(WINDOW, (0,255,0), [window_start, 450, 10, -(bar.height)])
+                pygame.draw.rect(WINDOW, (0,255,0), [width_start, 450, 10, -(bar.height)])
             else:
-                pygame.draw.rect(WINDOW, (255,0,0), [window_start, 450, 10, -(bar.height)])
+                pygame.draw.rect(WINDOW, (255,0,0), [width_start, 450, 10, -(bar.height)])
             window_start += 20
             bar.selected = False
         pygame.display.update()
+
 
     #Does an insertion sort on a given list of numbers
     def insertionSort(bars):
@@ -57,16 +57,20 @@ def main(sort):
             j = i - 1
 
             while (j >= 0 and bars[j].value > bars[j + 1].value):
+                #if the two values are the wrong war around, swap them
                 bars[j + 1].selected = True
                 temp = bars[j + 1]
                 bars[j + 1] = bars[j]
                 bars[j] = temp
                 j-=1
+                #redraws the window every time bars are swapped
                 drawWindow()
+                #stops the program for half a second
                 time.sleep(0.5)
 
         return bars
 
+    #Does a bubble sort on the bars list
     def bubbleSort(bars):
         sorted = False
         while not sorted:
@@ -78,22 +82,28 @@ def main(sort):
                     holder = bars[i + 1]
                     bars[i + 1] = bars[i]
                     bars[i] = holder
+                    #redraws the window every time the bars are swapped
                     drawWindow()
+                    #stops the program for half a second
                     time.sleep(0.5)
+
 
     #Draws the initial unsorted bars to the screen
     drawWindow()
+
+    #handles the user event for when the user clicks the close button
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
 
-    #sorts the bars and shows the visualisation
+    #runs different sorting algorithms based on what the user has chosen
     time.sleep(2)
     if sort == "Insertion":
         insertionSort(bars)
     elif sort == "Bubble":
         bubbleSort(bars)
     time.sleep(2)
+
     run = False
 
 #Controls the main menu that will load before and after the visualisation takes place
