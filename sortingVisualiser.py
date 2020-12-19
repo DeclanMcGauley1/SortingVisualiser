@@ -158,31 +158,29 @@ def controlScreen():
 
 def algorithmPick(number):
     algoFont = pygame.font.SysFont("comicsans", 40)
+    chosenFont = pygame.font.SysFont("comicsans", 50)
     run = True
     while run:
         #Puts the prompt in the form of a label on the middle of the screen
         WINDOW.fill((0,0,0))
-        algoLabel = algoFont.render("Click to pick an algorithm to visualise...", 1, (255,255,255))
+        algoLabel = algoFont.render("Choose an algorithm to visualise..", 1, (255,255,255))
+        insertionLabel = chosenFont.render("Press the I key to visualise an Insertion sort", 1, (255,255,255))
+        bubbleLabel = chosenFont.render("Press the B key to visualise a Bubble sort", 1, (255,255,255))
         WINDOW.blit(algoLabel, (WIDTH / 2 - algoLabel.get_width() / 2, 250))
+        WINDOW.blit(insertionLabel, (WIDTH / 2 - insertionLabel.get_width() / 2, 300))
+        WINDOW.blit(bubbleLabel, (WIDTH / 2 - bubbleLabel.get_width() / 2, 350))
         pygame.display.update()
 
         #Checks if the user closes the window or if they click the mous button
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                #while there isnt a valid user input the program will continue to prompt the user for input
-                run = False
-                notValid = True
-                while notValid:
-                    ROOT = tk.Tk()
-                    ROOT.withdraw()
-                    selectedSort = simpledialog.askstring(title="Sorting", prompt="Choose a sort to visualise")
-                    #Checks which sort the user wants to see
-                    if selectedSort == ("insertion" or "Insertion"):
-                        notValid = False
-                        main("Insertion", number)
-                    elif selectedSort == ("bubble" or "Bubble"):
-                        notValid = False
-                        main("Bubble", number)
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_i]:
+            main("Insertion", number)
+        elif keys[pygame.K_b]:
+            main("Bubble", number)
+
+
 mainMenu()
