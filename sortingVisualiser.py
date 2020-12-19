@@ -68,10 +68,8 @@ def main(sort):
         return bars
 
     def bubbleSort(bars):
-        print("Bubble")
         sorted = False
         while not sorted:
-            print("Its meeee")
             sorted = True
             for i in range(0, len(bars) - 1):
                 if bars[i].value > bars[i + 1].value:
