@@ -147,11 +147,13 @@ def controlScreen():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
+                run = False
                 valid = False
                 while not valid:
                     ROOT = tk.Tk()
                     ROOT.withdraw()
                     selectedNum = simpledialog.askstring(title="Number", prompt="Choose a number of elements")
+                    valid = True
                     algorithmPick(int(selectedNum))
 
 
@@ -172,6 +174,7 @@ def algorithmPick(number):
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 #while there isnt a valid user input the program will continue to prompt the user for input
+                run = False
                 notValid = True
                 while notValid:
                     ROOT = tk.Tk()
