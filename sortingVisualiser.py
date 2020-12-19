@@ -21,6 +21,10 @@ class Bar:
 
 
 def main(sort, num):
+    a = 5 * (num - 1)
+    b = WIDTH - a
+    c = b / num
+
     run = True
 
     #generates the list to be sorted
@@ -42,10 +46,10 @@ def main(sort, num):
         for bar in bars:
             #If a bar is the one moving it is drawn green rather than red
             if bar.selected == True:
-                pygame.draw.rect(WINDOW, (0,255,0), [width_start, 450, 10, -(bar.height)])
+                pygame.draw.rect(WINDOW, (0,255,0), [width_start, 450, c, -(bar.height)])
             else:
-                pygame.draw.rect(WINDOW, (255,0,0), [width_start, 450, 10, -(bar.height)])
-            width_start += 20
+                pygame.draw.rect(WINDOW, (255,0,0), [width_start, 450, c, -(bar.height)])
+            width_start += (c + 5)
             bar.selected = False
         pygame.display.update()
 
