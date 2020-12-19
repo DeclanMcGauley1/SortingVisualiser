@@ -15,6 +15,7 @@ class Bar:
         self.value = value
         self.barStart = barStart
         self.height = self.value * 10
+        self.selected = False
 
     def moveLeft(self):
         self.barStart -= 20
@@ -42,14 +43,19 @@ def main(sort):
         WINDOW.fill((0,0,0))
         window_start = 0
         for bar in bars:
-            pygame.draw.rect(WINDOW, (255,0,0), [window_start, 450, 10, -(bar.height)])
+            if bar.selected == True:
+                pygame.draw.rect(WINDOW, (0,255,0), [window_start, 450, 10, -(bar.height)])
+            else:
+                pygame.draw.rect(WINDOW, (255,0,0), [window_start, 450, 10, -(bar.height)])
             window_start += 20
+            bar.selected = False
         pygame.display.update()
 
     #Does an insertion sort on a given list of numbers
     def insertionSort(bars):
         for i in range(1, len(bars)):
             holder = bars[i]
+            holder.selected = True
             j = i - 1
             while j >= 0 and bars[j].value > holder.value:
                 bars[j + 1] = bars[j]
