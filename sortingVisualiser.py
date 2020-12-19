@@ -67,6 +67,21 @@ def main(sort):
 
         return bars
 
+    def bubbleSort(bars):
+        print("Bubble")
+        sorted = False
+        while not sorted:
+            print("Its meeee")
+            sorted = True
+            for i in range(0, len(bars) - 1):
+                if bars[i].value > bars[i + 1].value:
+                    sorted = False
+                    bars[i].selected = True
+                    holder = bars[i + 1]
+                    bars[i + 1] = bars[i]
+                    bars[i] = holder
+                    drawWindow()
+                    time.sleep(0.5)
 
     #Draws the initial unsorted bars to the screen
     drawWindow()
@@ -105,11 +120,14 @@ def mainMenu():
                 while notValid:
                     ROOT = tk.Tk()
                     ROOT.withdraw()
-                    selectedSort = simpledialog.askstring(title="Sorting", prompt="Choose a sort to visualise..")
+                    selectedSort = simpledialog.askstring(title="Sorting", prompt="Choose a sort to visualise")
                     #Checks which sort the user wants to see
-                    if selectedSort == "insertion" or "Insertion":
+                    if selectedSort == ("insertion" or "Insertion"):
                         notValid = False
                         main("Insertion")
+                    elif selectedSort == ("bubble" or "Bubble"):
+                        notValid = False
+                        main("Bubble")
     pygame.quit()
 
 mainMenu()
