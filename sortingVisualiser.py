@@ -54,17 +54,19 @@ def main(sort):
     #Does an insertion sort on a given list of numbers
     def insertionSort(bars):
         for i in range(1, len(bars)):
-            holder = bars[i]
-            holder.selected = True
             j = i - 1
-            while j >= 0 and bars[j].value > holder.value:
+
+            while (j >= 0 and bars[j].value > bars[j + 1].value):
+                bars[j + 1].selected = True
+                temp = bars[j + 1]
                 bars[j + 1] = bars[j]
-                j -= 1
+                bars[j] = temp
+                j-=1
                 drawWindow()
-                time.sleep(0.3)
-            bars[j + 1] = holder
-            time.sleep(0.5)
-        return toBeSorted
+                time.sleep(0.5)
+
+        return bars
+
 
     #Draws the initial unsorted bars to the screen
     drawWindow()
@@ -78,7 +80,7 @@ def main(sort):
         insertionSort(bars)
     elif sort == "Bubble":
         bubbleSort(bars)
-    time.sleep(0.5)
+    time.sleep(2)
     run = False
 
 #Controls the main menu that will load before and after the visualisation takes place
