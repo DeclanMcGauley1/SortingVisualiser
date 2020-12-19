@@ -23,7 +23,7 @@ class Bar:
         self.barStart += 20
 
 
-def main():
+def main(sort):
     run = True
     width_count = 0
 
@@ -56,7 +56,7 @@ def main():
                 j -= 1
             bars[j + 1] = holder
             drawWindow()
-            time.sleep(0.2)
+            time.sleep(0.5)
         return toBeSorted
 
     #Draws the initial unsorted bars to the screen
@@ -67,7 +67,10 @@ def main():
 
     #sorts the bars and shows the visualisation
     time.sleep(2)
-    insertionSort(bars)
+    if sort == "Insertion":
+        insertionSort(bars)
+    elif sort == "Bubble":
+        bubbleSort(bars)
     time.sleep(0.5)
     run = False
 
@@ -97,7 +100,7 @@ def mainMenu():
                     #Checks which sort the user wants to see
                     if selectedSort == "insertion" or "Insertion":
                         notValid = False
-                        main()
+                        main("Insertion")
     pygame.quit()
 
 mainMenu()
