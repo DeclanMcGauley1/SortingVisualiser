@@ -55,6 +55,28 @@ def bubbleSort(bars):
                 #stops the program for half a second
                 time.sleep(0.5)
 
+def quickSort(bars):
+    length = len(bars)
+    if length <= 1:
+        return bars
+    else:
+        pivot = bars.pop()
+        pivot.selected = True
+    lessThanPivot = list()
+    greaterThanPivot = list()
+    for bar in bars:
+        if bar.value > pivot.value:
+            greaterThanPivot.append(bar)
+        else:
+            lessThanPivot.append(bar)
+
+    showList = lessThanPivot + [pivot] + greaterThanPivot
+    drawWindow(showList)
+    time.sleep(0.3)
+    return quickSort(lessThanPivot) + [pivot] + quickSort(greaterThanPivot)
+
+
+
 #draws the bars and the animations to the window
 def drawWindow(bars):
     a = 2 * (len(bars) - 1)
@@ -103,6 +125,8 @@ def main(sort, num):
         insertionSort(bars)
     elif sort == "Bubble":
         bubbleSort(bars)
+    elif sort == "Quick":
+        quickSort(bars)
     time.sleep(2)
 
     run = False
@@ -181,6 +205,8 @@ def algorithmPick(number):
             main("Insertion", number)
         elif keys[pygame.K_b]:
             main("Bubble", number)
+        elif keys[pygame.K_q]:
+            main("Quick", number)
 
 
 mainMenu()
