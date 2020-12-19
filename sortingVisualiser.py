@@ -1,6 +1,7 @@
 import pygame
 import random
 import time
+pygame.font.init()
 
 WIDTH = 800
 HEIGHT = 500
@@ -63,5 +64,25 @@ def main():
                 run = False
         time.sleep(2)
         insertionSort(bars)
+        time.sleep(0.5)
         run = False
-main()
+
+def mainMenu():
+    titleFont = pygame.font.SysFont("comicsans", 30)
+    run = True
+
+    while run:
+        WINDOW.fill((0,0,0))
+        titleLabel = titleFont.render("Press the mouse button for a visualisation of Insertion Sort...", 1, (255, 255, 255))
+        WINDOW.blit(titleLabel, (WIDTH / 2 - titleLabel.get_width() / 2, 250))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                main()
+
+
+    pygame.quit()
+
+mainMenu()
