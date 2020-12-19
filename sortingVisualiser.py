@@ -1,6 +1,8 @@
 import pygame
 import random
 import time
+import tkinter as tk
+from tkinter import simpledialog
 pygame.font.init()
 
 WIDTH = 800
@@ -80,9 +82,14 @@ def mainMenu():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                main()
-
-
+                notValid = True
+                while notValid:
+                    ROOT = tk.Tk()
+                    ROOT.withdraw()
+                    selectedSort = simpledialog.askstring(title="Sorting", prompt="Choose a sort to visualise..")
+                    if selectedSort == "insertion" or "Insertion":
+                        notValid = False
+                        main()
     pygame.quit()
 
 mainMenu()
