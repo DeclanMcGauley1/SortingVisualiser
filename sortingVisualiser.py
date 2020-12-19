@@ -32,7 +32,6 @@ def main(sort):
     bars = list()
     for number in toBeSorted:
         bars.append(Bar(number))
-        width_count += 20
 
     #draws the bars and the animations to the window
     def drawWindow():
@@ -46,7 +45,7 @@ def main(sort):
                 pygame.draw.rect(WINDOW, (0,255,0), [width_start, 450, 10, -(bar.height)])
             else:
                 pygame.draw.rect(WINDOW, (255,0,0), [width_start, 450, 10, -(bar.height)])
-            window_start += 20
+            width_start += 20
             bar.selected = False
         pygame.display.update()
 
