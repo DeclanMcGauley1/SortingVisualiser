@@ -20,12 +20,12 @@ class Bar:
 
 
 
-def main(sort):
+def main(sort, num):
     run = True
 
     #generates the list to be sorted
     toBeSorted = list()
-    for i in range(10):
+    for i in range(num):
         toBeSorted.append(random.randint(1, 40))
 
     #Generates bar objecs from the generated list
@@ -107,14 +107,59 @@ def main(sort):
 
 #Controls the main menu that will load before and after the visualisation takes place
 def mainMenu():
-    titleFont = pygame.font.SysFont("comicsans", 30)
+    titleFont = pygame.font.SysFont("comicsans", 60)
+    promptFont = pygame.font.SysFont("comicsans", 30)
     run = True
 
     while run:
         #Puts the prompt in the form of a label on the middle of the screen
         WINDOW.fill((0,0,0))
-        titleLabel = titleFont.render("Press the to pick a sorting algorithm to visualise...", 1, (255, 255, 255))
-        WINDOW.blit(titleLabel, (WIDTH / 2 - titleLabel.get_width() / 2, 250))
+        titleLabel = titleFont.render("Welcome to the algorithms visualiser!", 1, (255,255,255))
+        promptLabel = promptFont.render("Click your mouse to start...", 1, (255, 255, 255))
+        WINDOW.blit(titleLabel, (WIDTH / 2 - titleLabel.get_width() / 2, 100))
+        WINDOW.blit(promptLabel, (WIDTH / 2 - promptLabel.get_width() / 2, 250))
+        pygame.display.update()
+
+        #Checks if the user closes the window or if they click the mous button
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                controlScreen()
+    pygame.quit()
+
+
+def controlScreen():
+    run = True
+    numberFont = pygame.font.SysFont("comicsans", 40)
+
+    while run:
+        WINDOW.fill((0,0,0))
+        numberLabel = numberFont.render("Click the mouse to select the number of elements to sort..", 1, (255,255,255))
+        WINDOW.blit(numberLabel, (WIDTH / 2 - numberLabel.get_width() / 2, 250))
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                valid = False
+                while not valid:
+                    ROOT = tk.Tk()
+                    ROOT.withdraw()
+                    selectedNum = simpledialog.askstring(title="Number", prompt="Choose a number of elements")
+                    algorithmPick(int(selectedNum))
+
+
+
+def algorithmPick(number):
+    algoFont = pygame.font.SysFont("comicsans", 40)
+    run = True
+    while run:
+        #Puts the prompt in the form of a label on the middle of the screen
+        WINDOW.fill((0,0,0))
+        algoLabel = algoFont.render("Click to pick an algorithm to visualise...", 1, (255,255,255))
+        WINDOW.blit(algoLabel, (WIDTH / 2 - algoLabel.get_width() / 2, 250))
         pygame.display.update()
 
         #Checks if the user closes the window or if they click the mous button
@@ -131,10 +176,8 @@ def mainMenu():
                     #Checks which sort the user wants to see
                     if selectedSort == ("insertion" or "Insertion"):
                         notValid = False
-                        main("Insertion")
+                        main("Insertion", number)
                     elif selectedSort == ("bubble" or "Bubble"):
                         notValid = False
-                        main("Bubble")
-    pygame.quit()
-
+                        main("Bubble", number)
 mainMenu()
