@@ -56,26 +56,30 @@ def bubbleSort(bars):
                 time.sleep(0.5)
 
 def quickSort(bars):
-    length = len(bars)
-    if length <= 1:
+    if len(bars) <= 1:
         return bars
-    else:
-        pivot = bars.pop()
-        pivot.selected = True
-    lessThanPivot = list()
-    greaterThanPivot = list()
-    for bar in bars:
-        if bar.value > pivot.value:
-            greaterThanPivot.append(bar)
-        else:
-            lessThanPivot.append(bar)
+    return partition(bars,0,len(bars)-1)
 
-    showList = lessThanPivot + [pivot] + greaterThanPivot
-    drawWindow(showList)
-    time.sleep(0.3)
-    return quickSort(lessThanPivot) + [pivot] + quickSort(greaterThanPivot)
+def partition(bars,start,end):
+    pivot = bars[end]
+    pivot.selected = True
+    border = start
+    if start < end:
+        for i in range(start,end+1):
+            if bars[i].value <= pivot.value:
+                temp = bars[border]
+                bars[border] = bars[i]
+                bars[i] = temp
+                if i != end:
+                    border += 1
+        drawWindow(bars)
+        time.sleep(0.2)
+        partition(bars,start,border-1)
+        partition(bars,border+1,end)
+        drawWindow(bars)
+        time.sleep(0.2)
 
-
+    return bars
 
 #draws the bars and the animations to the window
 def drawWindow(bars):
@@ -126,7 +130,9 @@ def main(sort, num):
     elif sort == "Bubble":
         bubbleSort(bars)
     elif sort == "Quick":
-        quickSort(bars)
+        newBars = quickSort(bars)
+        drawWindow(newBars)
+        time.sleep(0.3)
     time.sleep(2)
 
     run = False
