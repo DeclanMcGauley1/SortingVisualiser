@@ -82,8 +82,7 @@ def partition(bars,start,end):
     return bars
 
 def selectionSort(bars):
-    length = range(0, len(bars) - 1)
-    for i in length:
+    for i in range(0, len(bars) - 1):
         minimum = i
         for j in range(i + 1, len(bars)):
             if bars[j].value < bars[minimum].value:
@@ -96,6 +95,44 @@ def selectionSort(bars):
             bars[i] = temp
             drawWindow(bars)
             time.sleep(0.5)
+
+def mergeSort(bars):
+    if len(bars) <= 1:
+        return bars
+
+    mid = int(len(bars) / 2)
+
+    left = bars[0:mid]
+    right = bars[mid:len(bars)]
+
+    left = mergeSort(left)
+    right = mergeSort(right)
+
+    merged = merge(left, right)
+    return merged
+
+def merge(left, right):
+    result = list()
+    while len(left) > 0 and len(right) > 0:
+        leftValue = left[0]
+        rightValue = right[0]
+
+        if leftValue <= rightValue:
+            result.append(leftValue)
+            left.pop(0)
+        else:
+            result.append(rightValue)
+            right.pop(0)
+
+    if left:
+        result.extend(left)
+    else:
+        result.extend(right)
+
+    return result
+
+
+
 
 #draws the bars and the animations to the window
 def drawWindow(bars):
@@ -149,6 +186,8 @@ def main(sort, num):
         quickSort(bars)
     elif sort == "Selection":
         selectionSort(bars)
+    elif sort == "Merge":
+        print(mergeSort([2,1,4,3,9,5,6,7]))
 
     time.sleep(2)
 
@@ -236,6 +275,8 @@ def algorithmPick(number):
             main("Quick", number)
         elif keys[pygame.K_s]:
             main("Selection", number)
+        elif keys[pygame.K_m]:
+            main("Merge", number)
 
 
 mainMenu()
