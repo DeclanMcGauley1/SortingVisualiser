@@ -81,6 +81,22 @@ def partition(bars,start,end):
 
     return bars
 
+def selectionSort(bars):
+    length = range(0, len(bars) - 1)
+    for i in length:
+        minimum = i
+        for j in range(i + 1, len(bars)):
+            if bars[j].value < bars[minimum].value:
+                minimum = j
+
+        if minimum != i:
+            bars[minimum].selected = True
+            temp = bars[minimum]
+            bars[minimum] = bars[i]
+            bars[i] = temp
+            drawWindow(bars)
+            time.sleep(0.5)
+
 #draws the bars and the animations to the window
 def drawWindow(bars):
     a = 2 * (len(bars) - 1)
@@ -130,9 +146,10 @@ def main(sort, num):
     elif sort == "Bubble":
         bubbleSort(bars)
     elif sort == "Quick":
-        newBars = quickSort(bars)
-        drawWindow(newBars)
-        time.sleep(0.3)
+        quickSort(bars)
+    elif sort == "Selection":
+        selectionSort(bars)
+
     time.sleep(2)
 
     run = False
@@ -215,6 +232,8 @@ def algorithmPick(number):
             main("Bubble", number)
         elif keys[pygame.K_q]:
             main("Quick", number)
+        elif keys[pygame.K_s]:
+            main("Selection", number)
 
 
 mainMenu()
