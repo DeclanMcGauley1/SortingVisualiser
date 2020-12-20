@@ -44,7 +44,7 @@ def bubbleSort(bars):
     while not sorted:
         sorted = True
         for i in range(0, len(bars) - 1):
-            if bars[i].value > bars[i + 1].value:
+            if (bars[i].value > bars[i + 1].value):
                 sorted = False
                 bars[i].selected = True
                 holder = bars[i + 1]
@@ -56,7 +56,7 @@ def bubbleSort(bars):
                 time.sleep(0.5)
 
 def quickSort(bars):
-    if len(bars) <= 1:
+    if (len(bars) <= 1):
         return bars
     return partition(bars,0,len(bars)-1)
 
@@ -64,13 +64,13 @@ def partition(bars,start,end):
     pivot = bars[end]
     pivot.selected = True
     border = start
-    if start < end:
+    if (start < end):
         for i in range(start,end+1):
-            if bars[i].value <= pivot.value:
+            if (bars[i].value <= pivot.value):
                 temp = bars[border]
                 bars[border] = bars[i]
                 bars[i] = temp
-                if i != end:
+                if (i != end):
                     border += 1
         drawWindow(bars)
         time.sleep(0.2)
@@ -88,7 +88,7 @@ def selectionSort(bars):
             if bars[j].value < bars[minimum].value:
                 minimum = j
 
-        if minimum != i:
+        if (minimum != i):
             bars[minimum].selected = True
             temp = bars[minimum]
             bars[minimum] = bars[i]
@@ -123,29 +123,29 @@ def merge(bars, start, middle, end):
     return bars
 
 def mergeSort(bars, start, end):
-    if start < end:
-        middle = start + (end - start) // 2;
-        mergeSort(bars, start, middle);
-        mergeSort(bars, middle + 1, end);
-        return merge(bars, start, middle, end);
+    if (start < end):
+        middle = start + (end - start) // 2
+        mergeSort(bars, start, middle)
+        mergeSort(bars, middle + 1, end)
+        return merge(bars, start, middle, end)
 
 
 #draws the bars and the animations to the window
 def drawWindow(bars):
-    a = 2 * (len(bars) - 1)
-    b = WIDTH - a
-    c = b / len(bars)
+    gapTotal = 2 * (len(bars) - 1)
+    barTotal = WIDTH - gapTotal
+    barWidth = barTotal / len(bars)
     #blacks out the screen to redraw elements
     WINDOW.fill((0,0,0))
     width_start = 0
     #Draws bars onto the screen from a list of bars
     for bar in bars:
         #If a bar is the one moving it is drawn green rather than red
-        if bar.selected == True:
-            pygame.draw.rect(WINDOW, (0,255,0), [width_start, 450, c, -(bar.height)])
+        if (bar.selected == True):
+            pygame.draw.rect(WINDOW, (0,255,0), [width_start, 450, barWidth, -(bar.height)])
         else:
-            pygame.draw.rect(WINDOW, (255,0,0), [width_start, 450, c, -(bar.height)])
-        width_start += (c + 2)
+            pygame.draw.rect(WINDOW, (255,0,0), [width_start, 450, barWidth, -(bar.height)])
+        width_start += (barWidth + 2)
         bar.selected = False
     pygame.display.update()
 
@@ -169,20 +169,20 @@ def main(sort, num):
 
     #handles the user event for when the user clicks the close button
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if (event.type == pygame.QUIT):
             run = False
 
     #runs different sorting algorithms based on what the user has chosen
     time.sleep(2)
-    if sort == "Insertion":
+    if (sort == "Insertion"):
         insertionSort(bars)
-    elif sort == "Bubble":
+    elif (sort == "Bubble"):
         bubbleSort(bars)
-    elif sort == "Quick":
+    elif (sort == "Quick"):
         quickSort(bars)
-    elif sort == "Selection":
+    elif (sort == "Selection"):
         selectionSort(bars)
-    elif sort == "Merge":
+    elif (sort == "Merge"):
         mergeSort(bars, 0, len(bars) - 1)
 
     time.sleep(2)
@@ -206,9 +206,9 @@ def mainMenu():
 
         #Checks if the user closes the window or if they click the mous button
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if (event.type == pygame.QUIT):
                 run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if (event.type == pygame.MOUSEBUTTONDOWN):
                 controlScreen()
     pygame.quit()
 
@@ -224,9 +224,9 @@ def controlScreen():
         pygame.display.update()
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if (event.type == pygame.QUIT):
                 run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if (event.type == pygame.MOUSEBUTTONDOWN):
                 run = False
                 valid = False
                 while not valid:
@@ -250,28 +250,30 @@ def algorithmPick(number):
         bubbleLabel = chosenFont.render("Press the B key to visualise a Bubble sort", 1, (255,255,255))
         quickLabel = chosenFont.render("Press the Q key to visualise a Quick sort", 1, (255,255,255))
         selectionLabel = chosenFont.render("Press the S key to visualise a Selection sort", 1, (255,255,255))
-        WINDOW.blit(algoLabel, (WIDTH / 2 - algoLabel.get_width() / 2, 250))
-        WINDOW.blit(insertionLabel, (WIDTH / 2 - insertionLabel.get_width() / 2, 300))
-        WINDOW.blit(bubbleLabel, (WIDTH / 2 - bubbleLabel.get_width() / 2, 350))
-        WINDOW.blit(quickLabel, (WIDTH / 2 - quickLabel.get_width() / 2, 400))
-        WINDOW.blit(selectionLabel, (WIDTH / 2 - selectionLabel.get_width() / 2, 450))
+        mergeLabel = chosenFont.render("Press the M key to visualise a Merge sort", 1, (255,255,255))
+        WINDOW.blit(algoLabel, (WIDTH / 2 - algoLabel.get_width() / 2, 200))
+        WINDOW.blit(insertionLabel, (WIDTH / 2 - insertionLabel.get_width() / 2, 250))
+        WINDOW.blit(bubbleLabel, (WIDTH / 2 - bubbleLabel.get_width() / 2, 300))
+        WINDOW.blit(quickLabel, (WIDTH / 2 - quickLabel.get_width() / 2, 350))
+        WINDOW.blit(selectionLabel, (WIDTH / 2 - selectionLabel.get_width() / 2, 400))
+        WINDOW.blit(mergeLabel, (WIDTH / 2 - mergeLabel.get_width() / 2, 450))
         pygame.display.update()
 
         #Checks if the user closes the window or if they click the mous button
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if (event.type == pygame.QUIT):
                 run = False
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_i]:
+        if (keys[pygame.K_i]):
             main("Insertion", number)
-        elif keys[pygame.K_b]:
+        elif (keys[pygame.K_b]):
             main("Bubble", number)
-        elif keys[pygame.K_q]:
+        elif (keys[pygame.K_q]):
             main("Quick", number)
-        elif keys[pygame.K_s]:
+        elif (keys[pygame.K_s]):
             main("Selection", number)
-        elif keys[pygame.K_m]:
+        elif (keys[pygame.K_m]):
             main("Merge", number)
 
 
