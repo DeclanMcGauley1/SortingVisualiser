@@ -220,7 +220,9 @@ def controlScreen():
     while run:
         WINDOW.fill((0,0,0))
         numberLabel = numberFont.render("Click the mouse to select the number of elements to sort..", 1, (255,255,255))
-        WINDOW.blit(numberLabel, (WIDTH / 2 - numberLabel.get_width() / 2, 250))
+        beggingLabel = numberFont.render("Choose a number between 2 and 200 please", 1, (255,255,255))
+        WINDOW.blit(numberLabel, (WIDTH / 2 - numberLabel.get_width() / 2, 200))
+        WINDOW.blit(beggingLabel, (WIDTH / 2 - beggingLabel.get_width() / 2, 250))
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -230,20 +232,27 @@ def controlScreen():
                 run = False
                 valid = False
                 while not valid:
+                    #takes a user input for the number of elements to be sorted
                     ROOT = tk.Tk()
                     ROOT.withdraw()
-                    selectedNum = simpledialog.askstring(title="Number", prompt="Choose a number of elements")
-                    valid = True
-                    algorithmPick(int(selectedNum))
+                    try:
+                        selectedNum = simpledialog.askstring(title="Number", prompt="Choose a number of elements")
+                        validNum = int(selectedNum)
+                        if ((validNum >= 2) and (validNum <= 200)):
+                            valid = True
+                            algorithmPick(validNum)
+                    except:
+                        valid = False
 
 
 
 def algorithmPick(number):
+    #Declare the font and sizes of the labels
     algoFont = pygame.font.SysFont("comicsans", 40)
     chosenFont = pygame.font.SysFont("comicsans", 50)
     run = True
     while run:
-        #Puts the prompt in the form of a label on the middle of the screen
+        #Puts all the labels that prompt the user on the screen
         WINDOW.fill((0,0,0))
         algoLabel = algoFont.render("Choose an algorithm to visualise..", 1, (255,255,255))
         insertionLabel = chosenFont.render("Press the I key to visualise an Insertion sort", 1, (255,255,255))
@@ -264,6 +273,7 @@ def algorithmPick(number):
             if (event.type == pygame.QUIT):
                 run = False
 
+        #Checks key presses and calls main with the correct algorithm choice
         keys = pygame.key.get_pressed()
         if (keys[pygame.K_i]):
             main("Insertion", number)
