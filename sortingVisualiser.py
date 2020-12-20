@@ -196,9 +196,11 @@ def algorithmPick(number):
         algoLabel = algoFont.render("Choose an algorithm to visualise..", 1, (255,255,255))
         insertionLabel = chosenFont.render("Press the I key to visualise an Insertion sort", 1, (255,255,255))
         bubbleLabel = chosenFont.render("Press the B key to visualise a Bubble sort", 1, (255,255,255))
+        quickLabel = chosenFont.render("Press the Q key to visualise a Quick sort", 1, (255,255,255))
         WINDOW.blit(algoLabel, (WIDTH / 2 - algoLabel.get_width() / 2, 250))
         WINDOW.blit(insertionLabel, (WIDTH / 2 - insertionLabel.get_width() / 2, 300))
         WINDOW.blit(bubbleLabel, (WIDTH / 2 - bubbleLabel.get_width() / 2, 350))
+        WINDOW.blit(quickLabel, (WIDTH / 2 - quickLabel.get_width() / 2, 400))
         pygame.display.update()
 
         #Checks if the user closes the window or if they click the mous button
