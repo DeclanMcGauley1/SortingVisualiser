@@ -96,42 +96,38 @@ def selectionSort(bars):
             drawWindow(bars)
             time.sleep(0.5)
 
-def mergeSort(bars):
-    if len(bars) <= 1:
-        return bars
+def merge(bars, start, middle, end):
+    sublistStart = middle + 1
+    if (bars[middle].value <= bars[sublistStart].value):
+        return
 
-    mid = int(len(bars) / 2)
+    while (start <= middle and sublistStart <= end):
 
-    left = bars[0:mid]
-    right = bars[mid:len(bars)]
-
-    left = mergeSort(left)
-    right = mergeSort(right)
-
-    merged = merge(left, right)
-    return merged
-
-def merge(left, right):
-    result = list()
-    while len(left) > 0 and len(right) > 0:
-        leftValue = left[0]
-        rightValue = right[0]
-
-        if leftValue <= rightValue:
-            result.append(leftValue)
-            left.pop(0)
+        if (bars[start].value <= bars[sublistStart].value):
+            start += 1
         else:
-            result.append(rightValue)
-            right.pop(0)
+            value = bars[sublistStart]
+            index = sublistStart
 
-    if left:
-        result.extend(left)
-    else:
-        result.extend(right)
+            while (index != start):
+                bars[index] = bars[index - 1]
+                index -= 1;
 
-    return result
+            bars[start] = value
 
+            start += 1
+            middle += 1
+            sublistStart += 1
+    drawWindow(bars)
+    time.sleep(0.2)
+    return bars
 
+def mergeSort(bars, start, end):
+    if start < end:
+        middle = start + (end - start) // 2;
+        mergeSort(bars, start, middle);
+        mergeSort(bars, middle + 1, end);
+        return merge(bars, start, middle, end);
 
 
 #draws the bars and the animations to the window
@@ -187,7 +183,7 @@ def main(sort, num):
     elif sort == "Selection":
         selectionSort(bars)
     elif sort == "Merge":
-        print(mergeSort([2,1,4,3,9,5,6,7]))
+        mergeSort(bars, 0, len(bars) - 1)
 
     time.sleep(2)
 
