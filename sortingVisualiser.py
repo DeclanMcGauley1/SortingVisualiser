@@ -41,9 +41,12 @@ def insertionSort(bars):
 #Does a bubble sort on the bars list
 def bubbleSort(bars):
     sorted = False
+    #keeps looping through the list if there were swaps in the last iteration
     while not sorted:
         sorted = True
+        #loops through the list again
         for i in range(0, len(bars) - 1):
+            #if an element is out of place, swap them
             if (bars[i].value > bars[i + 1].value):
                 sorted = False
                 bars[i].selected = True
@@ -55,25 +58,36 @@ def bubbleSort(bars):
                 #stops the program for half a second
                 time.sleep(0.5)
 
+
 def quickSort(bars):
+    #a list of length 1 is already sorted
     if (len(bars) <= 1):
         return bars
+    #partitions the list recurssivley until it is sorted
     return partition(bars,0,len(bars)-1)
 
 def partition(bars,start,end):
+    #sets the pivot value for the algorithm to be the last element in the list
     pivot = bars[end]
     pivot.selected = True
+
+    #if there are more than 1 value in the list
     border = start
     if (start < end):
         for i in range(start,end+1):
+            #if a value is less than the pivot then you set that value to the border index
             if (bars[i].value <= pivot.value):
                 temp = bars[border]
                 bars[border] = bars[i]
                 bars[i] = temp
+                #if you arent at the end of the list, increment the border index
                 if (i != end):
                     border += 1
+        #redraws the bars after they have been sorted
         drawWindow(bars)
         time.sleep(0.2)
+        #calls partition on sub lists of the original list
+        #Divide and Conquer this porject
         partition(bars,start,border-1)
         partition(bars,border+1,end)
         drawWindow(bars)
@@ -82,39 +96,50 @@ def partition(bars,start,end):
     return bars
 
 def selectionSort(bars):
+    #loop through the whole array
     for i in range(0, len(bars) - 1):
         minimum = i
         for j in range(i + 1, len(bars)):
+            #if a value is less than the minimum, that becomes the new minimum
             if bars[j].value < bars[minimum].value:
                 minimum = j
 
+        #if the min value has changed
         if (minimum != i):
+            #swap the border value with the new minimum
             bars[minimum].selected = True
             temp = bars[minimum]
             bars[minimum] = bars[i]
             bars[i] = temp
+            #redraw the bars onto the window
             drawWindow(bars)
             time.sleep(0.5)
 
+
 def merge(bars, start, middle, end):
     sublistStart = middle + 1
+    #returns if it is already sorted
     if (bars[middle].value <= bars[sublistStart].value):
         return
 
+    #while the lists still have values
     while (start <= middle and sublistStart <= end):
 
         if (bars[start].value <= bars[sublistStart].value):
             start += 1
         else:
+            #define the value and the index of the right value
             value = bars[sublistStart]
             index = sublistStart
 
+            #while the index is not at the start index, shift all the values to the right
             while (index != start):
                 bars[index] = bars[index - 1]
                 index -= 1
 
             bars[start] = value
 
+            #increment values
             start += 1
             middle += 1
             sublistStart += 1
@@ -123,15 +148,22 @@ def merge(bars, start, middle, end):
     return bars
 
 def mergeSort(bars, start, end):
+    #if there is more than one element in the list
     if (start < end):
+        #define a middle so we can split the list
         middle = start + (end - start) // 2
+
+        #recurssivley call our method on the sublists
         mergeSort(bars, start, middle)
         mergeSort(bars, middle + 1, end)
+
+        #merge the sublists back together
         return merge(bars, start, middle, end)
 
 
 #draws the bars and the animations to the window
 def drawWindow(bars):
+    #allocates the correct amount of space for the number of bars chosen
     gapTotal = 2 * (len(bars) - 1)
     barTotal = WIDTH - gapTotal
     barWidth = barTotal / len(bars)
@@ -145,6 +177,7 @@ def drawWindow(bars):
             pygame.draw.rect(WINDOW, (0,255,0), [width_start, 450, barWidth, -(bar.height)])
         else:
             pygame.draw.rect(WINDOW, (255,0,0), [width_start, 450, barWidth, -(bar.height)])
+        #maintains a consistant gap between the bars on screen
         width_start += (barWidth + 2)
         bar.selected = False
     pygame.display.update()
@@ -204,7 +237,7 @@ def mainMenu():
         WINDOW.blit(promptLabel, (WIDTH / 2 - promptLabel.get_width() / 2, 250))
         pygame.display.update()
 
-        #Checks if the user closes the window or if they click the mous button
+        #Checks if the user closes the window or if they click the mouse button
         for event in pygame.event.get():
             if (event.type == pygame.QUIT):
                 run = False
@@ -218,6 +251,7 @@ def controlScreen():
     numberFont = pygame.font.SysFont("comicsans", 40)
 
     while run:
+        #Creates and Displays the labels on the screen
         WINDOW.fill((0,0,0))
         numberLabel = numberFont.render("Click the mouse to select the number of elements to sort..", 1, (255,255,255))
         beggingLabel = numberFont.render("Choose a number between 2 and 200 please", 1, (255,255,255))
@@ -235,6 +269,7 @@ def controlScreen():
                     #takes a user input for the number of elements to be sorted
                     ROOT = tk.Tk()
                     ROOT.withdraw()
+                    #checks for valid input so my program doesnt explode
                     try:
                         selectedNum = simpledialog.askstring(title="Number", prompt="Choose a number of elements")
                         validNum = int(selectedNum)
@@ -286,5 +321,5 @@ def algorithmPick(number):
         elif (keys[pygame.K_m]):
             main("Merge", number)
 
-
+#Starts the program
 mainMenu()
