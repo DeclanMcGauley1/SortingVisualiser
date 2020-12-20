@@ -111,7 +111,7 @@ def merge(bars, start, middle, end):
 
             while (index != start):
                 bars[index] = bars[index - 1]
-                index -= 1;
+                index -= 1
 
             bars[start] = value
 
